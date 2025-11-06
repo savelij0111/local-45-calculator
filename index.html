@@ -15,7 +15,29 @@
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
     .input{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:8px;text-align:center}
     .input input{width:100%;background:transparent;border:0;color:inherit;font-size:16px;outline:none}
-    .controls{display:flex;gap:8px;margin-top:12px}
+    
+    /* Исправленный блок controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap; /* перенос на новую строку при нехватке места */
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .controls select,
+    .controls button {
+      flex: 1 1 auto; /* позволяют уменьшаться и растягиваться */
+      min-width: 120px; /* минимальная ширина кнопки/селекта */
+    }
+    @media (max-width: 480px) {
+      .controls {
+        flex-direction: column; /* вертикально на очень узких экранах */
+      }
+      .controls select,
+      .controls button {
+        width: 100%;
+      }
+    }
+
     button{background:linear-gradient(180deg,var(--accent),#2563eb);border:0;padding:10px 12px;border-radius:8px;color:white;cursor:pointer}
     button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
     .result{margin-top:18px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
@@ -101,9 +123,7 @@
   const shareBtn = el('share'), copyBtn = el('copy'), downloadBtn = el('download');
 
   function pad(n){return String(n).padStart(2,'0');}
-  function fmtLocal(d){
-    return `${d.toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`;
-  }
+  function fmtLocal(d){return `${d.toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`; }
 
   function compute(){
     const d = Number(days.value)||0; const h = Number(hours.value)||0; const m = Number(minutes.value)||0; const s = Number(seconds.value)||0;
