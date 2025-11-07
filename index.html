@@ -5,190 +5,265 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Локальный калькулятор времени</title>
   <style>
-  :root {
-    --bg: #0f1724;
-    --card: #0b1220;
-    --accent: #3b82f6;
-    --muted: #9aa4b2;
-    --glass: rgba(255,255,255,0.03);
-  }
-
-  html, body {
-    min-height: 100%;
-    margin: 0;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    background: linear-gradient(180deg, #071022 0%, #071a2e 100%);
-    color: #e6eef6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: calc(env(safe-area-inset-top, 20px) + 20px) 8px 8px;
-    box-sizing: border-box;
-  }
-
-  .wrap {
-    max-width: 980px;
-    width: 100%;
-  }
-
-  .card {
-    background: var(--card);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 30px rgba(2,6,23,0.6);
-  }
-
-  h1 {
-    font-size: 20px;
-    margin: 0 0 8px;
-  }
-
-  p.lead {
-    margin: 0;
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: 16px;
-  }
-
-  .input {
-    background: var(--glass);
-    border: 1px solid rgba(255,255,255,0.04);
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .input input {
-    width: 100%;
-    background: transparent;
-    border: 0;
-    color: inherit;
-    font-size: 16px;
-    outline: none;
-  }
-
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  .controls select,
-  .controls button {
-    flex: 1 1 auto;
-    min-width: 120px;
-  }
-
-  button {
-    background: linear-gradient(180deg, var(--accent), #2563eb);
-    border: 0;
-    padding: 10px 12px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-  }
-
-  button.ghost {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .result {
-    margin-top: 18px;
-    padding: 14px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.03);
-  }
-
-  .small {
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .col {
-    flex: 1;
-  }
-
-  .footer {
-    margin-top: 12px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  @media (max-width: 680px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr);
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #3b82f6;
+      --muted: #9aa4b2;
+      --glass: rgba(255,255,255,0.03);
     }
-  }
 
-  @media (max-width: 480px) {
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg, #071022 0%, #071a2e 100%);
+      color: #e6eef6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(env(safe-area-inset-top)) 8px 8px;
+      box-sizing: border-box;
+    }
+
+    .wrap {
+      max-width: 980px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .header-main {
+      flex: 1 1 60%;
+    }
+
+    .header-meta {
+      flex: 1 1 35%;
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+      min-width: 140px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0 0 8px;
+    }
+
+    p.lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .input {
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.04);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .input input {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      font-size: 16px;
+      outline: none;
+    }
+
     .controls {
-      flex-direction: column;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
     }
 
     .controls select,
     .controls button {
-      width: 100%;
+      flex: 1 1 auto;
+      min-width: 120px;
     }
 
-    h1 {
-      font-size: 18px;
+    button,
+    button.ghost {
+      transition: background 0.3s ease, transform 0.2s ease;
     }
 
-    .card {
-      padding: 16px;
+    button {
+      background: linear-gradient(180deg, var(--accent), #2563eb);
+      border: 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
     }
 
-    .grid {
-      grid-template-columns: 1fr;
+    button:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, #4f8efc, #1d4ed8);
     }
-  }
-</style>
+
+    button.ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    button.ghost:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    .iso-block {
+      min-width: 220px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .result-value,
+    .result-iso {
+      transition: background 0.4s ease;
+    }
+
+    .result-value.updated,
+    .result-iso.updated {
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+    }
+
+    .mt-6 {
+      margin-top: 6px;
+    }
+
+    .footer {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 680px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-meta {
+        text-align: left;
+        margin-top: 8px;
+      }
+
+      .row {
+        flex-direction: column;
+      }
+
+      .iso-block {
+        min-width: auto;
+        margin-top: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .controls {
+        flex-direction: column;
+      }
+
+      .controls select,
+      .controls button {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
-  <div style="flex:1">
-    <h1 style="margin:0">Локальный калькулятор времени</h1>
-    <p class="lead" style="margin:4px 0 0">Введите дни, часы, минуты — увидите точную дату/время в вашей локальной временной зоне. Можно добавить (From now) или вычесть (Ago).</p>
-  </div>
-  <div style="text-align:right;color:var(--muted);font-size:12px;min-width:160px">
-    <div id="tz"></div>
-    <div id="nowLabel"></div>
-  </div>
-</div>
+      <div class="header">
+        <div class="header-main">
+          <h1>Локальный калькулятор времени</h1>
+          <p class="lead">Введите дни, часы, минуты — увидите точную дату/время в вашей локальной временной зоне.</p>
+        </div>
+        <div class="header-meta">
+          <div id="tz"></div>
+          <div id="nowLabel"></div>
+        </div>
+      </div>
 
-<div class="result" id="result">
+      <div class="result" id="result">
         <div class="row">
           <div class="col">
             <div class="small">Результат (локальное время)</div>
-            <div id="localResult" style="font-weight:600;margin-top:6px">—</div>
-            <div id="relative" class="small" style="margin-top:6px">—</div>
+            <div id="localResult" class="result-value mt-6">—</div>
+            <div id="relative" class="small mt-6">—</div>
           </div>
-          <div style="min-width:220px">
+          <div class="col iso-block">
             <div class="small">ISO / Unix</div>
-            <div id="iso" style="font-family:monospace;margin-top:6px">—</div>
-            <div id="unix" class="small" style="margin-top:6px">—</div>
+            <div id="iso" class="result-iso mt-6">—</div>
+            <div id="unix" class="small mt-6">—</div>
           </div>
         </div>
       </div>
 
-      <div class="grid" style="margin-top:16px">
+      <div class="grid">
         <div class="input">
           <label class="small">Дни</label>
           <input id="days" type="number" inputmode="numeric" value="0" min="0" autofocus />
@@ -205,7 +280,7 @@
 
       <div class="controls">
         <label class="small">Операция:</label>
-        <select id="direction" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit">
+        <select id="direction">
           <option value="from">From now (вперед)</option>
           <option value="ago">Ago (назад)</option>
         </select>
@@ -213,6 +288,7 @@
         <button class="ghost" id="copy">Копировать</button>
         <button class="ghost" id="download">Скачать .ics</button>
       </div>
+
       <div class="footer">
         Поддерживает фрагменты в URL: параметры кодируются в `#d=0&h=12&m=0&dir=from` — можно отправлять ссылку.
       </div>
@@ -228,42 +304,60 @@
   const tzEl = el('tz'), nowLabel = el('nowLabel');
   const shareBtn = el('share'), copyBtn = el('copy'), downloadBtn = el('download');
 
-  function pad(n){return String(n).padStart(2,'0');}
-  function fmtLocal(d){return `${d.toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`; }
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function fmtLocal(d){ return `${d.toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`; }
+
+  function animateUpdate(el){
+    el.classList.add('updated');
+    setTimeout(() => el.classList.remove('updated'), 400);
+  }
 
   function compute(){
-    const d = Number(days.value)||0; const h = Number(hours.value)||0; const m = Number(minutes.value)||0
+    const d = Number(days.value)||0;
+    const h = Number(hours.value)||0;
+    const m = Number(minutes.value)||0;
     const dir = direction.value;
     const now = new Date();
     const delta = ((d*24 + h)*60 + m)*60;
     const target = new Date(now.getTime() + (dir==='from' ? 1 : -1) * delta * 1000);
+
     resultEl.textContent = fmtLocal(target);
     isoEl.textContent = target.toISOString();
     unixEl.textContent = Math.floor(target.getTime()/1000) + ' (sec)';
     relativeEl.textContent = humanRelative(now, target);
     nowLabel.textContent = 'Now: ' + now.toLocaleString();
+
+    animateUpdate(resultEl);
+    animateUpdate(isoEl);
+
     history.replaceState(null,'',buildHash());
-    return {now,target};
+    return {now, target};
   }
 
   function humanRelative(a,b){
     const diff = Math.round((b - a)/1000);
     const abs = Math.abs(diff);
-    const s = abs % 60; const totalM = Math.floor(abs/60);
-    const m = totalM % 60; const totalH = Math.floor(totalM/60);
-    const h = totalH % 24; const dd = Math.floor(totalH/24);
+    const s = abs % 60;
+    const totalM = Math.floor(abs/60);
+    const m = totalM % 60;
+    const totalH = Math.floor(totalM/60);
+    const h = totalH % 24;
+    const dd = Math.floor(totalH/24);
     const parts = [];
     if(dd) parts.push(dd + 'd');
     if(h) parts.push(h + 'h');
     if(m) parts.push(m + 'm');
     if(!parts.length) parts.push(s + 's');
-    return diff>0 ? `Через ${parts.join(' ')}` : `${parts.join(' ')} назад`;
+    return diff > 0 ? `Через ${parts.join(' ')}` : `${parts.join(' ')} назад`;
   }
 
   function buildHash(){
     const params = new URLSearchParams();
-    params.set('d', days.value||'0'); params.set('h', hours.value||'0'); params.set('m', minutes.value||'0'); params.set('dir', direction.value);
-    return '#'+params.toString();
+    params.set('d', days.value||'0');
+    params.set('h', hours.value||'0');
+    params.set('m', minutes.value||'0');
+    params.set('dir', direction.value);
+    return '#' + params.toString();
   }
 
   function applyHash(){
@@ -275,20 +369,22 @@
     if(q.has('dir')) direction.value = q.get('dir');
   }
 
-  shareBtn.addEventListener('click', ()=>{
-  const url = location.origin + location.pathname + buildHash();
-  navigator.clipboard?.writeText(url).then(()=>{
-    alert('Ссылка скопирована:\n' + url);
+  shareBtn.addEventListener('click', () => {
+    const url = location.origin + location.pathname + buildHash();
+    navigator.clipboard?.writeText(url).then(() => {
+      alert('Ссылка скопирована:\n' + url);
+    });
   });
-});
 
-  copyBtn.addEventListener('click', ()=>{
+  copyBtn.addEventListener('click', () => {
     const {target} = compute();
     const text = `${target.toString()} | ISO: ${target.toISOString()}`;
-    navigator.clipboard?.writeText(text).then(()=>alert('Результат скопирован'));
+    navigator.clipboard?.writeText(text).then(() => {
+      alert('Результат скопирован');
+    });
   });
 
-  downloadBtn.addEventListener('click', ()=>{
+  downloadBtn.addEventListener('click', () => {
     const {target} = compute();
     const start = target;
     const dtstamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
@@ -296,13 +392,20 @@
     const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//local-time-calculator//EN\nBEGIN:VEVENT\nUID:${uid}\nDTSTAMP:${dtstamp}\nDTSTART:${formatICS(start)}\nSUMMARY:Time Calculator Event\nEND:VEVENT\nEND:VCALENDAR`;
     const blob = new Blob([ics],{type:'text/calendar'});
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'event.ics'; a.click();
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'event.ics';
+    a.click();
     URL.revokeObjectURL(url);
   });
 
   function formatICS(d){
-    const y = d.getUTCFullYear(); const mo = pad(d.getUTCMonth()+1); const day = pad(d.getUTCDate());
-    const hh = pad(d.getUTCHours()); const mm = pad(d.getUTCMinutes()); const ss = pad(d.getUTCSeconds());
+    const y = d.getUTCFullYear();
+    const mo = pad(d.getUTCMonth()+1);
+    const day = pad(d.getUTCDate());
+    const hh = pad(d.getUTCHours());
+    const mm = pad(d.getUTCMinutes());
+    const ss = pad(d.getUTCSeconds());
     return `${y}${mo}${day}T${hh}${mm}${ss}Z`;
   }
 
@@ -310,8 +413,10 @@
   applyHash();
   compute();
 
-  [days,hours,minutes,direction].forEach(i=>i.addEventListener('input', compute));
-  setInterval(()=>{ nowLabel.textContent = 'Now: ' + new Date().toLocaleString(); }, 1000);
+  [days, hours, minutes, direction].forEach(i => i.addEventListener('input', compute));
+  setInterval(() => {
+    nowLabel.textContent = 'Now: ' + new Date().toLocaleString();
+  }, 1000);
 })();
 </script>
 </body>
