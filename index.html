@@ -162,48 +162,18 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="flex:1">
-          <h1>Локальный калькулятор времени</h1>
-          <p class="lead">Введите дни, часы, минуты — увидите точную дату/время в вашей локальной временной зоне. Можно добавить (From now) или вычесть (Ago).</p>
-        </div>
-        <div style="text-align:right;color:var(--muted);font-size:12px">
-          <div id="tz"></div>
-          <div id="nowLabel"></div>
-        </div>
-      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
+  <div style="flex:1">
+    <h1 style="margin:0">Локальный калькулятор времени</h1>
+    <p class="lead" style="margin:4px 0 0">Введите дни, часы, минуты — увидите точную дату/время в вашей локальной временной зоне. Можно добавить (From now) или вычесть (Ago).</p>
+  </div>
+  <div style="text-align:right;color:var(--muted);font-size:12px;min-width:160px">
+    <div id="tz"></div>
+    <div id="nowLabel"></div>
+  </div>
+</div>
 
-      <div class="grid" style="margin-top:16px">
-        <div class="input">
-          <label class="small">Дни</label>
-          <input id="days" type="number" inputmode="numeric" value="0" min="0" />
-        </div>
-        <div class="input">
-          <label class="small">Часы</label>
-          <input id="hours" type="number" inputmode="numeric" value="12" min="0" />
-        </div>
-        <div class="input">
-          <label class="small">Минуты</label>
-          <input id="minutes" type="number" inputmode="numeric" value="0" min="0" />
-        </div>
-        <div class="input">
-          <label class="small">Секунды</label>
-          <input id="seconds" type="number" inputmode="numeric" value="0" min="0" />
-        </div>
-      </div>
-
-      <div class="controls">
-        <label class="small">Операция:</label>
-        <select id="direction" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit">
-          <option value="from">From now (вперед)</option>
-          <option value="ago">Ago (назад)</option>
-        </select>
-        <button id="share">Ссылка</button>
-        <button class="ghost" id="copy">Копировать</button>
-        <button class="ghost" id="download">Скачать .ics</button>
-      </div>
-
-      <div class="result" id="result">
+<div class="result" id="result">
         <div class="row">
           <div class="col">
             <div class="small">Результат (локальное время)</div>
@@ -218,8 +188,33 @@
         </div>
       </div>
 
+      <div class="grid" style="margin-top:16px">
+        <div class="input">
+          <label class="small">Дни</label>
+          <input id="days" type="number" inputmode="numeric" value="0" min="0" autofocus />
+        </div>
+        <div class="input">
+          <label class="small">Часы</label>
+          <input id="hours" type="number" inputmode="numeric" value="12" min="0" />
+        </div>
+        <div class="input">
+          <label class="small">Минуты</label>
+          <input id="minutes" type="number" inputmode="numeric" value="0" min="0" />
+        </div>
+      </div>
+
+      <div class="controls">
+        <label class="small">Операция:</label>
+        <select id="direction" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit">
+          <option value="from">From now (вперед)</option>
+          <option value="ago">Ago (назад)</option>
+        </select>
+        <button id="share">Ссылка</button>
+        <button class="ghost" id="copy">Копировать</button>
+        <button class="ghost" id="download">Скачать .ics</button>
+      </div>
       <div class="footer">
-        Поддерживает фрагменты в URL: параметры кодируются в `#d=0&h=12&m=0&s=0&dir=from` — можно отправлять ссылку.
+        Поддерживает фрагменты в URL: параметры кодируются в `#d=0&h=12&m=0&dir=from` — можно отправлять ссылку.
       </div>
     </div>
   </div>
@@ -227,7 +222,7 @@
 <script>
 (function(){
   const el = id => document.getElementById(id);
-  const days = el('days'), hours = el('hours'), minutes = el('minutes'), seconds = el('seconds');
+  const days = el('days'), hours = el('hours'), minutes = el('minutes');
   const direction = el('direction');
   const resultEl = el('localResult'), isoEl = el('iso'), unixEl = el('unix'), relativeEl = el('relative');
   const tzEl = el('tz'), nowLabel = el('nowLabel');
@@ -237,10 +232,10 @@
   function fmtLocal(d){return `${d.toLocaleString()} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`; }
 
   function compute(){
-    const d = Number(days.value)||0; const h = Number(hours.value)||0; const m = Number(minutes.value)||0; const s = Number(seconds.value)||0;
+    const d = Number(days.value)||0; const h = Number(hours.value)||0; const m = Number(minutes.value)||0
     const dir = direction.value;
     const now = new Date();
-    const delta = ((d*24 + h)*60 + m)*60 + s; // seconds
+    const delta = ((d*24 + h)*60 + m)*60;
     const target = new Date(now.getTime() + (dir==='from' ? 1 : -1) * delta * 1000);
     resultEl.textContent = fmtLocal(target);
     isoEl.textContent = target.toISOString();
@@ -267,7 +262,7 @@
 
   function buildHash(){
     const params = new URLSearchParams();
-    params.set('d', days.value||'0'); params.set('h', hours.value||'0'); params.set('m', minutes.value||'0'); params.set('s', seconds.value||'0'); params.set('dir', direction.value);
+    params.set('d', days.value||'0'); params.set('h', hours.value||'0'); params.set('m', minutes.value||'0'); params.set('dir', direction.value);
     return '#'+params.toString();
   }
 
@@ -277,14 +272,15 @@
     if(q.has('d')) days.value = q.get('d');
     if(q.has('h')) hours.value = q.get('h');
     if(q.has('m')) minutes.value = q.get('m');
-    if(q.has('s')) seconds.value = q.get('s');
     if(q.has('dir')) direction.value = q.get('dir');
   }
 
   shareBtn.addEventListener('click', ()=>{
-    const url = location.origin + location.pathname + buildHash();
-    navigator.clipboard?.writeText(url).then(()=>alert('Ссылка скопирована'));
+  const url = location.origin + location.pathname + buildHash();
+  navigator.clipboard?.writeText(url).then(()=>{
+    alert('Ссылка скопирована:\n' + url);
   });
+});
 
   copyBtn.addEventListener('click', ()=>{
     const {target} = compute();
@@ -314,11 +310,9 @@
   applyHash();
   compute();
 
-  [days,hours,minutes,seconds,direction].forEach(i=>i.addEventListener('input', compute));
+  [days,hours,minutes,direction].forEach(i=>i.addEventListener('input', compute));
   setInterval(()=>{ nowLabel.textContent = 'Now: ' + new Date().toLocaleString(); }, 1000);
 })();
 </script>
 </body>
 </html>
-
-
