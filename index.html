@@ -240,24 +240,24 @@
     <div class="card">
       <div class="header">
         <div class="header-main">
-          <h1>Локальный калькулятор времени</h1>
-          <p class="lead">Введите дни, часы, минуты — увидите точную дату/время в вашей локальной временной зоне.</p>
+          <h1>🕒 Локальный калькулятор времени</h1>
+          <p class="lead">📅 Введите дни, часы, минуты — увидите точную дату/время в вашей локальной временной зоне.</p>
         </div>
         <div class="header-meta">
-          <div id="tz"></div>
-          <div id="nowLabel"></div>
+          <div id="tz">🌍 Временная зона</div>
+          <div id="nowLabel">⏰ Сейчас</div>
         </div>
       </div>
 
       <div class="result" id="result">
         <div class="row">
           <div class="col">
-            <div class="small">Результат (локальное время)</div>
+            <div class="small">🎯 Результат (локальное время)</div>
             <div id="localResult" class="result-value mt-6">—</div>
             <div id="relative" class="small mt-6">—</div>
           </div>
           <div class="col iso-block">
-            <div class="small">ISO / Unix</div>
+            <div class="small">📦 ISO / Unix</div>
             <div id="iso" class="result-iso mt-6">—</div>
             <div id="unix" class="small mt-6">—</div>
           </div>
@@ -266,33 +266,31 @@
 
       <div class="grid">
         <div class="input">
-          <label class="small">Дни</label>
+          <label class="small">📆 Дни</label>
           <input id="days" type="number" inputmode="numeric" value="0" min="0" autofocus />
         </div>
         <div class="input">
-          <label class="small">Часы</label>
+          <label class="small">🕐 Часы</label>
           <input id="hours" type="number" inputmode="numeric" value="12" min="0" />
         </div>
         <div class="input">
-          <label class="small">Минуты</label>
+          <label class="small">⏱ Минуты</label>
           <input id="minutes" type="number" inputmode="numeric" value="0" min="0" />
         </div>
       </div>
 
       <div class="controls">
-        <label class="small">Операция:</label>
+        <label class="small">⚙️ Операция:</label>
         <select id="direction">
           <option value="from">From now (вперед)</option>
           <option value="ago">Ago (назад)</option>
         </select>
-        <button id="share">Ссылка</button>
-        <button class="ghost" id="copy">Копировать</button>
-        <button class="ghost" id="download">Скачать .ics</button>
+        <button id="share">🔗 Ссылка</button>
+        <button class="ghost" id="copy">📋 Копировать</button>
+        <button class="ghost" id="download">📥 Скачать .ics</button>
       </div>
 
-      <div class="footer">
-        Поддерживает фрагменты в URL: параметры кодируются в `#d=0&h=12&m=0&dir=from` — можно отправлять ссылку.
-      </div>
+      <div class="footer">📌 Поддерживает фрагменты в URL: параметры кодируются в `#d=0&h=12&m=0&dir=from` — можно отправлять ссылку.</div>
     </div>
   </div>
 
